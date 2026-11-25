@@ -1,0 +1,5 @@
+/build*/
+/build*.log
+/vendor/
+/dist/
+.DS_Store
