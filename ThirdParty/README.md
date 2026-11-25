@@ -1,11 +1,15 @@
-# Third-party notices
+# Built with a little help
 
-The plugin uses JUCE 9.0.5, copyright Raw Material Software Limited, under its AGPLv3 licensing option. See [JUCE-LICENSE.md](JUCE-LICENSE.md) and the project’s [AGPLv3 license](../LICENSE.md).
+This plugin uses **JUCE 9.0.5** by Raw Material Software Limited, under its AGPLv3 option. The full details are in [JUCE’s license](JUCE-LICENSE.md) and the project’s [AGPLv3 license](../LICENSE.md).
 
-[JUCE.spdx.json](JUCE.spdx.json) is the upstream dependency inventory. The `licenses/` folder preserves notices for libraries used by the JUCE audio, graphics, and AU infrastructure; some optional features are not enabled in this build. The complete matching JUCE source, with all original notices, is included in each release’s source-with-JUCE archive.
+JUCE brings along some other libraries for things like graphics and audio plugin support. Their credits and license texts are kept in `licenses/`. There’s also a [full dependency list](JUCE.spdx.json) from JUCE, including optional bits this plugin doesn’t use.
 
-JUCE source: https://github.com/juce-framework/JUCE/tree/9.0.5
+Each release has a **source-with-JUCE** download with JUCE and its original notices included. You can also [browse JUCE 9.0.5 on GitHub](https://github.com/juce-framework/JUCE/tree/9.0.5).
 
-Pinned archive SHA-256: `d92207f51ba728d3d195b6d5e93ecd049717a915fc250ff6844c32ea7272315a`.
+The build script checks the JUCE download against this SHA-256:
 
-The JPEG support in JUCE is based in part on the work of the Independent JPEG Group. Its complete notice is preserved in `licenses/modules/juce_graphics/image_formats/jpglib/README`.
+```text
+d92207f51ba728d3d195b6d5e93ecd049717a915fc250ff6844c32ea7272315a
+```
+
+JUCE’s JPEG support is based in part on the work of the Independent JPEG Group. Its full notice is in `licenses/modules/juce_graphics/image_formats/jpglib/README`.

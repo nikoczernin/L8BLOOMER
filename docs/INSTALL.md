@@ -1,45 +1,57 @@
-# Installing L8BLOOMER
+# Getting L8BLOOMER into Logic
 
-Download the macOS universal ZIP from [L8BLOOMER releases](https://github.com/nikoczernin/L8BLOOMER/releases/latest), unzip it, and quit Logic.
+Grab the macOS ZIP from the [L8BLOOMER release page](https://github.com/nikoczernin/L8BLOOMER/releases/latest), unzip it, and quit Logic.
 
-## Automatic installation
+## Let the helper do it
 
-In Terminal, type `bash ` (with a trailing space), drag the extracted `Install.command` into the Terminal window, then press Return. This installs only for your user account and does not require an administrator password. Existing versions are backed up under `~/Library/Audio/Plug-Ins/L8BLOOMER backups/`.
+In Terminal, type `bash ` (with a space after it), drag `Install.command` from the download into the window, and press Return. It copies the plugin into your user folder and backs up any older version. No admin password needed.
 
-From a source checkout after building, use `bash scripts/install.sh` instead.
+Backups live in `~/Library/Audio/Plug-Ins/L8BLOOMER backups/`.
 
-## Manual installation
+If you built the plugin yourself, run `bash scripts/install.sh` from the project folder.
 
-In Finder, choose **Go → Go to Folder…** and paste `~/Library/Audio/Plug-Ins/Components`. Create the folder if needed. Copy `L8BLOOMER.component` there. Move any previous copy to a backup outside `Components` before installing the new one.
+## Or copy it yourself
 
-If you have the older **Slow Bloom.component**, move it out of `Components` as well. It shares L8BLOOMER’s Audio Unit identity. The installer handles this automatically and keeps a backup; existing Logic sessions retain their parameter identifiers.
+In Finder, choose **Go → Go to Folder…** and paste:
 
-Restart Logic, then choose **Audio FX → Audio Units → Niko Audio → L8BLOOMER** on an audio channel.
+```text
+~/Library/Audio/Plug-Ins/Components
+```
 
-## If it does not appear
+Create the folder if it’s missing, then copy the whole `L8BLOOMER.component` into it. If you’re replacing an older copy, put that one somewhere outside `Components` first so you can go back to it.
 
-1. Confirm the bundle is directly in `Components`, not inside another extracted folder.
-2. In Logic, open **Settings → Plug-in Manager**, find `L8BLOOMER` under **Niko Audio**, select it, and choose **Reset & Rescan Selection**. Older Logic versions call Settings “Preferences”.
-3. Restart your Mac if the newly installed Audio Unit has not been registered yet.
-4. For a diagnostic check, run:
-   ```sh
-   auval -v aufx SlBl Niko -strict
-   ```
+Still have **Slow Bloom.component** from an older version? Move that out of `Components` too. It shares L8BLOOMER’s plugin identity, so only one should be installed. The helper takes care of this and saves a backup. Your existing Logic settings carry over.
 
-## If macOS blocks the download
+Open Logic again and choose **Audio FX → Audio Units → Niko Audio → L8BLOOMER** on an audio channel.
 
-The binary has a local ad-hoc signature. It is not signed with an Apple Developer ID or notarized. If macOS reports that it cannot verify the developer or blocks the downloaded component, first confirm it came from this repository’s release page.
+## If Logic can’t find it
 
-For a download you trust, quit Logic and remove the quarantine attribute **only from this installed plugin**:
+1. Check that `L8BLOOMER.component` is directly inside `Components`, rather than tucked inside the unzipped download folder.
+2. Open Logic’s **Settings → Plug-in Manager**, find `L8BLOOMER` under **Niko Audio**, and click **Reset & Rescan Selection**. On older versions of Logic, Settings is called “Preferences”.
+3. If it still hasn’t shown up, restart your Mac and try again.
+
+For a more detailed check, Apple’s Audio Unit validator can tell you what’s going on. Run this in Terminal:
+
+```sh
+auval -v aufx SlBl Niko -strict
+```
+
+## If macOS blocks it
+
+The download is locally signed, but it hasn’t been signed with an Apple Developer ID or notarized by Apple. That means macOS may warn you or stop Logic from opening it.
+
+If you downloaded it from this repo’s release page and trust it, quit Logic and run this in Terminal:
 
 ```sh
 xattr -dr com.apple.quarantine "$HOME/Library/Audio/Plug-Ins/Components/L8BLOOMER.component"
 ```
 
-Then reopen Logic and rescan that plugin in Plug-in Manager. This does not disable Gatekeeper globally. If you prefer, build from the published source instead.
+This clears the download quarantine flag for this plugin only. Open Logic again and rescan it in Plug-in Manager. Building from the source is another option.
 
-The release’s `SHA256SUMS.txt` lets you check downloads in Terminal using `shasum -a 256 <downloaded-file>` and comparing the result to the matching line. To verify every listed archive after downloading them to one folder, run `shasum -a 256 -c SHA256SUMS.txt` there.
+## Checking your download
 
-## Update or uninstall
+Each release has a `SHA256SUMS.txt` file. Run `shasum -a 256 <downloaded-file>` and compare the result with the matching line in that file. If you’ve downloaded both archives and the checksum file into one folder, you can check them together with `shasum -a 256 -c SHA256SUMS.txt`.
 
-Quit Logic before either operation. The installer preserves previous copies outside the active `Components` folder. To roll back, replace the active component with the backup. To uninstall, move `L8BLOOMER.component` from `Components` to the Trash, then restart Logic. Existing sessions will report a missing plugin until it is reinstalled.
+## Updating, going back, or removing it
+
+Quit Logic first. The helper keeps a backup when you update, so you can put the old `.component` back if you need to. To remove the plugin, move `L8BLOOMER.component` from `Components` to the Trash and reopen Logic. Sessions that used it will show it as missing until you reinstall it.
